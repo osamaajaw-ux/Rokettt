@@ -15,12 +15,12 @@
         .balance-value { font-weight: bold; font-size: 14px; color: #fff; }
         .add-btn { background: #333; border: none; color: #fff; width: 20px; height: 20px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-        .history-bar { width: 100%; max-width: 480px; display: flex; gap: 6px; overflow-x: auto; padding: 4px 16px; margin-bottom: 10px; scrollbar-width: none; }
+        .history-bar { width: 100%; max-width: 480px; display: flex; gap: 6px; overflow-x: auto; padding: 4px 16px; margin-bottom: 10px; scrollbar-width: none; direction: ltr; }
         .history-bar::-webkit-scrollbar { display: none; }
         .hist-pill { padding: 5px 12px; border-radius: 10px; font-size: 12px; font-weight: bold; white-space: nowrap; }
         .h-green { background: #14532d; color: #4ade80; border: 1px solid #166534; }
         .h-purple { background: #581c87; color: #c084fc; border: 1px solid #6b21a8; }
-        .h-red { background: #7f1d1d; color: #f87171; border: 1px solid #991b1b; }
+        .h-gold { background: #78350f; color: #f59e0b; border: 1px solid #b45309; }
 
         .game-card { width: calc(100% - 32px); max-width: 448px; background: #18181b; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; align-items: center; position: relative; border: 1px solid #27272a; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
         .rocket-stage { height: 130px; display: flex; justify-content: center; align-items: center; position: relative; width: 100%; }
@@ -35,14 +35,16 @@
         .action-btn { width: 100%; padding: 14px; border: none; border-radius: 14px; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center; transition: 0.2s; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; }
         .action-btn.cancel { background: #dc2626; }
         .action-btn.cashout { background: #16a34a; }
+        .action-btn.disabled { background: #3f3f46; color: #a1a1aa; cursor: not-allowed; }
 
-        .players-section { width: calc(100% - 32px); max-width: 448px; margin-top: 15px; display: flex; flex-direction: column; gap: 8px; }
+        .players-section { width: calc(100% - 32px); max-width: 448px; margin-top: 15px; display: flex; flex-direction: column; gap: 8px; min-height: 50px; }
         .player-card { background: #0f291e; border: 1px solid #14532d; border-radius: 14px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
         .player-info { display: flex; align-items: center; gap: 12px; }
         .avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; background: #3f3f46; }
         .player-name { font-size: 13px; font-weight: 600; color: #f4f4f5; }
         .player-sub { font-size: 11px; color: #4ade80; margin-top: 2px; display: flex; align-items: center; gap: 4px; }
         .player-right { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: bold; color: #4ade80; background: #14532d; padding: 6px 12px; border-radius: 10px; border: 1px solid #166534; }
+        .no-players { font-size: 12px; color: #71717a; text-align: center; padding: 10px; }
 
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #18181b; border-top: 1px solid #27272a; display: flex; justify-content: space-around; padding: 8px 0 16px 0; z-index: 100; }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #71717a; font-size: 10px; cursor: pointer; text-decoration: none; }
@@ -70,13 +72,12 @@
         <button class="back-btn">‹ رجوع</button>
         <div class="gift-badge">🎁 Epic Gift</div>
         <div class="balance-container">
-            <span style="font-size: 13px;">💎</span>
+            <span style="font-size: 12px; font-weight: bold; color: #38bdf8;">TON</span>
             <span class="balance-value" id="userBalance">2.00</span>
             <button class="add-btn">+</button>
         </div>
     </div>
 
-    <!-- شريط النزلات مطابق للصورة -->
     <div class="history-bar" id="historyBar">
         <div class="hist-pill h-green">1.67x</div>
         <div class="hist-pill h-green">1.48x</div>
@@ -89,50 +90,13 @@
         <div class="rocket-stage">
             <div class="rocket-icon" id="rocketEmoji">🚀</div>
         </div>
-        <div class="multiplier-text" id="multiplierDisplay">1.67x</div>
+        <div class="multiplier-text" id="multiplierDisplay">1.00x</div>
         <button class="action-btn" id="mainBtn" onclick="openBetModal()">Place bet</button>
     </div>
 
-    <!-- قائمة الأشخاص الحقيقيين النازلين كما في الصورة -->
-    <div class="players-section">
-        <div class="player-card">
-            <div class="player-info">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="avatar" alt="Leader">
-                <div>
-                    <div class="player-name">- Leader</div>
-                    <div class="player-sub">💎 1.00 <span style="color: #93c5fd;">×1.60</span></div>
-                </div>
-            </div>
-            <div class="player-right">
-                💎 1.60
-            </div>
-        </div>
-
-        <div class="player-card">
-            <div class="player-info">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" class="avatar" alt="كابتوس">
-                <div>
-                    <div class="player-name">كابتوس 0014</div>
-                    <div class="player-sub">💎 0.65 <span style="color: #93c5fd;">×1.63</span></div>
-                </div>
-            </div>
-            <div class="player-right">
-                💎 1.06
-            </div>
-        </div>
-
-        <div class="player-card">
-            <div class="player-info">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" class="avatar" alt="Baqir">
-                <div>
-                    <div class="player-name">- Baqir .</div>
-                    <div class="player-sub">💎 0.10 <span style="color: #93c5fd;">×1.58</span></div>
-                </div>
-            </div>
-            <div class="player-right">
-                💎 0.16
-            </div>
-        </div>
+    <!-- قائمة الأشخاص (تظهر فقط رهاناتك الحقيقية ولا توجد أسماء وهمية) -->
+    <div class="players-section" id="playersSection">
+        <div class="no-players">لا توجد رهانات نشطة في هذه الجولة</div>
     </div>
 
     <!-- نافذة الرهان -->
@@ -145,11 +109,11 @@
             
             <div style="display: flex; justify-content: space-between; font-size: 12px; color: #a1a1aa;">
                 <span>Available balance</span>
-                <span>💎 <span id="modalBalance">2.00</span></span>
+                <span>TON <span id="modalBalance">2.00</span></span>
             </div>
 
             <div>
-                <label style="font-size: 12px; color: #a1a1aa; display: block; margin-bottom: 4px;">مبلغ الرهان:</label>
+                <label style="font-size: 12px; color: #a1a1aa; display: block; margin-bottom: 4px;">مبلغ الرهان (TON):</label>
                 <input type="number" id="customBetInput" class="custom-input" value="1.00" step="0.1" min="0.1">
             </div>
 
@@ -181,10 +145,13 @@
     <script>
         let balance = localStorage.getItem('leader_bot_balance') ? parseFloat(localStorage.getItem('leader_bot_balance')) : 2.00;
         let currentBetAmount = 0;
-        updateBalanceUI();
-
         let isBetPlaced = false;
         let hasCashedOut = false;
+        let recordedCrash = false;
+        let currentWinnings = 0;
+        let cashoutMultiplier = 0;
+
+        updateBalanceUI();
 
         function updateBalanceUI() {
             document.getElementById('userBalance').innerText = balance.toFixed(2);
@@ -226,6 +193,8 @@
             hasCashedOut = false;
             closeBetModal();
 
+            updatePlayersUI('waiting');
+
             let btn = document.getElementById('mainBtn');
             btn.innerText = 'Cancel Bet';
             btn.className = 'action-btn cancel';
@@ -241,6 +210,7 @@
             updateBalanceUI();
             isBetPlaced = false;
             currentBetAmount = 0;
+            updatePlayersUI('empty');
 
             let btn = document.getElementById('mainBtn');
             btn.innerText = 'Place bet';
@@ -251,15 +221,80 @@
         function cashOut() {
             if (!isBetPlaced || hasCashedOut) return;
             hasCashedOut = true;
-            let currentMult = parseFloat(document.getElementById('multiplierDisplay').innerText);
-            let winnings = currentBetAmount * currentMult;
-            balance += winnings;
+            cashoutMultiplier = parseFloat(document.getElementById('multiplierDisplay').innerText);
+            currentWinnings = currentBetAmount * cashoutMultiplier;
+            balance += currentWinnings;
             updateBalanceUI();
             
+            updatePlayersUI('cashed');
+
             let btn = document.getElementById('mainBtn');
             btn.innerText = 'تم السحب بنجاح ✅';
-            btn.className = 'action-btn';
+            btn.className = 'action-btn disabled';
             btn.onclick = null;
+        }
+
+        function updatePlayersUI(status) {
+            let container = document.getElementById('playersSection');
+            if (!isBetPlaced) {
+                container.innerHTML = `<div class="no-players">لا توجد رهانات نشطة في هذه الجولة</div>`;
+                return;
+            }
+
+            if (status === 'waiting') {
+                container.innerHTML = `
+                    <div class="player-card">
+                        <div class="player-info">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="avatar" alt="Leader">
+                            <div>
+                                <div class="player-name">- Leader</div>
+                                <div class="player-sub">TON ${currentBetAmount.toFixed(2)} <span style="color: #38bdf8;">بانتظار الانطلاق...</span></div>
+                            </div>
+                        </div>
+                        <div class="player-right" style="background: #1e1e1e; color: #a1a1aa; border: 1px solid #333;">قيد الانتظار</div>
+                    </div>`;
+            } else if (status === 'playing') {
+                container.innerHTML = `
+                    <div class="player-card">
+                        <div class="player-info">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="avatar" alt="Leader">
+                            <div>
+                                <div class="player-name">- Leader</div>
+                                <div class="player-sub">TON ${currentBetAmount.toFixed(2)}</div>
+                            </div>
+                        </div>
+                        <div class="player-right">نشط 🚀</div>
+                    </div>`;
+            } else if (status === 'cashed') {
+                container.innerHTML = `
+                    <div class="player-card">
+                        <div class="player-info">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="avatar" alt="Leader">
+                            <div>
+                                <div class="player-name">- Leader</div>
+                                <div class="player-sub">TON ${currentBetAmount.toFixed(2)} <span style="color: #38bdf8;">×${cashoutMultiplier.toFixed(2)}</span></div>
+                            </div>
+                        </div>
+                        <div class="player-right">TON ${currentWinnings.toFixed(2)}</div>
+                    </div>`;
+            }
+        }
+
+        function addNewHistory(multiplier) {
+            let historyBar = document.getElementById('historyBar');
+            let newPill = document.createElement('div');
+            
+            let colorClass = 'h-green';
+            if (multiplier >= 2.0 && multiplier < 5.0) colorClass = 'h-purple';
+            else if (multiplier >= 5.0) colorClass = 'h-gold';
+            
+            newPill.className = `hist-pill ${colorClass}`;
+            newPill.innerText = multiplier.toFixed(2) + 'x';
+            
+            historyBar.prepend(newPill);
+            if (historyBar.children.length > 8) {
+                historyBar.removeChild(historyBar.lastChild);
+            }
         }
 
         setInterval(() => {
@@ -267,16 +302,20 @@
             let cycleTime = now % 14000;
 
             if (cycleTime < 4000) {
-                let multiplier = 1.00;
-                document.getElementById('multiplierDisplay').innerText = multiplier.toFixed(2) + 'x';
+                let countdown = Math.ceil((4000 - cycleTime) / 1000);
+                document.getElementById('multiplierDisplay').innerText = `يبدأ خلال ${countdown}s`;
                 document.getElementById('rocketEmoji').innerText = '🚀';
                 document.getElementById('rocketEmoji').style.filter = 'none';
+                recordedCrash = false;
 
                 if (!isBetPlaced) {
                     let btn = document.getElementById('mainBtn');
                     btn.innerText = 'Place bet';
                     btn.className = 'action-btn';
                     btn.onclick = openBetModal;
+                    updatePlayersUI('empty');
+                } else {
+                    updatePlayersUI('waiting');
                 }
             } else {
                 let elapsedSeconds = (cycleTime - 4000) / 1000;
@@ -285,6 +324,7 @@
                 document.getElementById('multiplierDisplay').innerText = multiplier.toFixed(2) + 'x';
 
                 if (isBetPlaced && !hasCashedOut) {
+                    updatePlayersUI('playing');
                     let btn = document.getElementById('mainBtn');
                     btn.innerText = 'Cash Out';
                     btn.className = 'action-btn cashout';
@@ -300,12 +340,16 @@
                 } else if (!isBetPlaced) {
                     let btn = document.getElementById('mainBtn');
                     btn.innerText = 'Started...';
-                    btn.className = 'action-btn';
+                    btn.className = 'action-btn disabled';
                     btn.onclick = null;
                 }
 
-                if (multiplier > 15.0 && (Math.floor(now / 14000) % 2 === 0)) {
-                    document.getElementById('rocketEmoji').innerText = '💥';
+                if (multiplier > 12.0 && !recordedCrash) {
+                    recordedCrash = true;
+                    addNewHistory(multiplier);
+                    if (isBetPlaced && !hasCashedOut) {
+                        isBetPlaced = false; // انتهت الجولة وخسر الرهان إذا لم يسحب
+                    }
                 }
             }
         }, 100);
