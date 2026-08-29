@@ -9,42 +9,40 @@
         body { background-color: #121212; color: #fff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 70px; }
         
         .top-header { width: 100%; max-width: 480px; display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; }
-        .gift-badge { background: #1e1e1e; border: 1px solid #333; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; color: #b388ff; display: flex; align-items: center; gap: 6px; }
-        .balance-container { display: flex; align-items: center; gap: 8px; background: #1e1e1e; padding: 6px 12px; border-radius: 20px; border: 1px solid #333; }
+        .back-btn { background: #1e1e1e; border: 1px solid #333; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; color: #fff; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+        .gift-badge { background: #1e1e1e; border: 1px solid #333; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; color: #b388ff; }
+        .balance-container { display: flex; align-items: center; gap: 6px; background: #1e1e1e; padding: 6px 12px; border-radius: 20px; border: 1px solid #333; }
         .balance-value { font-weight: bold; font-size: 14px; color: #fff; }
-        .add-btn { background: #333; border: none; color: #fff; width: 22px; height: 22px; border-radius: 50%; font-weight: bold; cursor: pointer; }
+        .add-btn { background: #333; border: none; color: #fff; width: 20px; height: 20px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
         .history-bar { width: 100%; max-width: 480px; display: flex; gap: 6px; overflow-x: auto; padding: 4px 16px; margin-bottom: 10px; scrollbar-width: none; }
         .history-bar::-webkit-scrollbar { display: none; }
-        .hist-pill { padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: bold; white-space: nowrap; }
-        .h-red { background: #b71c1c; color: #fff; }
-        .h-green { background: #2e7d32; color: #fff; }
-        .h-purple { background: #6a1b9a; color: #fff; }
-        .h-gold { background: #fbc02d; color: #000; }
+        .hist-pill { padding: 5px 12px; border-radius: 10px; font-size: 12px; font-weight: bold; white-space: nowrap; }
+        .h-green { background: #14532d; color: #4ade80; border: 1px solid #166534; }
+        .h-purple { background: #581c87; color: #c084fc; border: 1px solid #6b21a8; }
+        .h-red { background: #7f1d1d; color: #f87171; border: 1px solid #991b1b; }
 
         .game-card { width: calc(100% - 32px); max-width: 448px; background: #18181b; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; align-items: center; position: relative; border: 1px solid #27272a; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
-        .status-pill { background: #27272a; padding: 4px 12px; border-radius: 12px; font-size: 11px; color: #a1a1aa; margin-bottom: 10px; }
-        .rocket-stage { height: 150px; display: flex; justify-content: center; align-items: center; position: relative; width: 100%; }
-        .rocket-icon { font-size: 60px; animation: floatAnim 2s ease-in-out infinite; }
+        .rocket-stage { height: 130px; display: flex; justify-content: center; align-items: center; position: relative; width: 100%; }
+        .rocket-icon { font-size: 55px; animation: floatAnim 2s ease-in-out infinite; }
         @keyframes floatAnim {
             0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(1deg); }
+            50% { transform: translateY(-6px) rotate(1deg); }
             100% { transform: translateY(0px) rotate(0deg); }
         }
-        .multiplier-text { font-size: 32px; font-weight: 800; margin: 5px 0 15px 0; letter-spacing: 0.5px; }
+        .multiplier-text { font-size: 38px; font-weight: 800; margin: 5px 0 15px 0; color: #38bdf8; letter-spacing: 0.5px; }
 
-        .action-btn { width: 100%; padding: 14px; border: none; border-radius: 14px; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center; transition: 0.2s; background: #2563eb; color: #fff; }
+        .action-btn { width: 100%; padding: 14px; border: none; border-radius: 14px; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center; transition: 0.2s; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; }
         .action-btn.cancel { background: #dc2626; }
         .action-btn.cashout { background: #16a34a; }
 
         .players-section { width: calc(100% - 32px); max-width: 448px; margin-top: 15px; display: flex; flex-direction: column; gap: 8px; }
-        .player-card { background: #18181b; border: 1px solid #27272a; border-radius: 14px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+        .player-card { background: #0f291e; border: 1px solid #14532d; border-radius: 14px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
         .player-info { display: flex; align-items: center; gap: 12px; }
-        .avatar { width: 36px; height: 36px; border-radius: 10px; background: #3f3f46; display: flex; justify-content: center; align-items: center; font-size: 13px; font-weight: bold; }
+        .avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; background: #3f3f46; }
         .player-name { font-size: 13px; font-weight: 600; color: #f4f4f5; }
-        .player-sub { font-size: 11px; color: #a1a1aa; margin-top: 2px; }
-        .player-right { display: flex; align-items: center; gap: 10px; }
-        .win-amount { font-size: 13px; font-weight: bold; color: #38bdf8; }
+        .player-sub { font-size: 11px; color: #4ade80; margin-top: 2px; display: flex; align-items: center; gap: 4px; }
+        .player-right { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: bold; color: #4ade80; background: #14532d; padding: 6px 12px; border-radius: 10px; border: 1px solid #166534; }
 
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #18181b; border-top: 1px solid #27272a; display: flex; justify-content: space-around; padding: 8px 0 16px 0; z-index: 100; }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #71717a; font-size: 10px; cursor: pointer; text-decoration: none; }
@@ -52,7 +50,7 @@
         .nav-icon { font-size: 18px; }
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: flex-end; z-index: 200; display: none; }
-        .modal-content { background: #18181b; width: 100%; max-width: 480px; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 20px; border-top: 1px solid #27272a; display: flex; flex-direction: column; gap: 16px; }
+        .modal-content { background: #18181b; width: 100%; max-width: 480px; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 20px; border-top: 1px solid #27272a; display: flex; flex-direction: column; gap: 14px; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 16px; }
         .close-modal { background: none; border: none; color: #a1a1aa; font-size: 18px; cursor: pointer; }
         
@@ -69,43 +67,70 @@
 <body>
 
     <div class="top-header">
-        <div class="gift-badge">🎁 Ebic Gift</div>
+        <button class="back-btn">‹ رجوع</button>
+        <div class="gift-badge">🎁 Epic Gift</div>
         <div class="balance-container">
             <span style="font-size: 13px;">💎</span>
-            <span class="balance-value" id="userBalance">150.00</span>
+            <span class="balance-value" id="userBalance">2.00</span>
             <button class="add-btn">+</button>
         </div>
     </div>
 
+    <!-- شريط النزلات مطابق للصورة -->
     <div class="history-bar" id="historyBar">
-        <div class="hist-pill h-gold">66.32x</div>
-        <div class="hist-pill h-green">1.33x</div>
-        <div class="hist-pill h-purple">3.57x</div>
-        <div class="hist-pill h-red">1.10x</div>
+        <div class="hist-pill h-green">1.67x</div>
+        <div class="hist-pill h-green">1.48x</div>
+        <div class="hist-pill h-purple">8.51x</div>
+        <div class="hist-pill h-purple">3.59x</div>
+        <div class="hist-pill h-green">1.25x</div>
     </div>
 
     <div class="game-card">
-        <div class="status-pill" id="channelTag">قناة البوت: @iisCvC</div>
         <div class="rocket-stage">
             <div class="rocket-icon" id="rocketEmoji">🚀</div>
         </div>
-        <div class="multiplier-text" id="multiplierDisplay">1.00x</div>
+        <div class="multiplier-text" id="multiplierDisplay">1.67x</div>
         <button class="action-btn" id="mainBtn" onclick="openBetModal()">Place bet</button>
     </div>
 
+    <!-- قائمة الأشخاص الحقيقيين النازلين كما في الصورة -->
     <div class="players-section">
-        <div style="font-size: 12px; color: #71717a; font-weight: bold;">أكثر الأشخاص أصحاب الرصيد (Leaderboard)</div>
         <div class="player-card">
             <div class="player-info">
-                <div class="avatar">👑</div>
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="avatar" alt="Leader">
                 <div>
                     <div class="player-name">- Leader</div>
-                    <div class="player-sub">💎 <span id="playerActiveBetText">0.00</span> <span id="leaderBetTag">x1.00</span></div>
+                    <div class="player-sub">💎 1.00 <span style="color: #93c5fd;">×1.60</span></div>
                 </div>
             </div>
             <div class="player-right">
-                <div class="win-amount" id="leaderWinVal">0.00</div>
-                <div style="font-size: 16px;">🧸</div>
+                💎 1.60
+            </div>
+        </div>
+
+        <div class="player-card">
+            <div class="player-info">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" class="avatar" alt="كابتوس">
+                <div>
+                    <div class="player-name">كابتوس 0014</div>
+                    <div class="player-sub">💎 0.65 <span style="color: #93c5fd;">×1.63</span></div>
+                </div>
+            </div>
+            <div class="player-right">
+                💎 1.06
+            </div>
+        </div>
+
+        <div class="player-card">
+            <div class="player-info">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" class="avatar" alt="Baqir">
+                <div>
+                    <div class="player-name">- Baqir .</div>
+                    <div class="player-sub">💎 0.10 <span style="color: #93c5fd;">×1.58</span></div>
+                </div>
+            </div>
+            <div class="player-right">
+                💎 0.16
             </div>
         </div>
     </div>
@@ -120,21 +145,25 @@
             
             <div style="display: flex; justify-content: space-between; font-size: 12px; color: #a1a1aa;">
                 <span>Available balance</span>
-                <span>💎 <span id="modalBalance">150.00</span></span>
+                <span>💎 <span id="modalBalance">2.00</span></span>
             </div>
 
-            <!-- حرية اختيار المبلغ -->
             <div>
-                <label style="font-size: 12px; color: #a1a1aa; display: block; margin-bottom: 6px;">مبلغ الرهان (اختر الرقم بكيفك):</label>
-                <input type="number" id="customBetInput" class="custom-input" value="10" min="1">
+                <label style="font-size: 12px; color: #a1a1aa; display: block; margin-bottom: 4px;">مبلغ الرهان:</label>
+                <input type="number" id="customBetInput" class="custom-input" value="1.00" step="0.1" min="0.1">
             </div>
 
             <div class="toggle-row">
-                <span>Auto cashout (السحب التلقائي)</span>
+                <span>السحب التلقائي (Auto Cashout)</span>
                 <label class="switch">
-                    <input type="checkbox" id="autoCashoutSwitch">
+                    <input type="checkbox" id="autoCashoutSwitch" onchange="toggleAutoInput()">
                     <span class="slider"></span>
                 </label>
+            </div>
+
+            <div id="autoTargetContainer" style="display: none;">
+                <label style="font-size: 12px; color: #a1a1aa; display: block; margin-bottom: 4px;">اسحب تلقائياً عند المضاعف:</label>
+                <input type="number" id="autoTargetInput" class="custom-input" value="2.00" step="0.1" min="1.1">
             </div>
 
             <button class="action-btn" onclick="confirmBet()">Place TON Bet</button>
@@ -150,14 +179,12 @@
     </div>
 
     <script>
-        let balance = localStorage.getItem('leader_bot_balance') ? parseFloat(localStorage.getItem('leader_bot_balance')) : 150.00;
+        let balance = localStorage.getItem('leader_bot_balance') ? parseFloat(localStorage.getItem('leader_bot_balance')) : 2.00;
         let currentBetAmount = 0;
         updateBalanceUI();
 
         let isBetPlaced = false;
-        let gameState = 'waiting'; 
-        let currentMultiplier = 1.00;
-        let gameTimer = null;
+        let hasCashedOut = false;
 
         function updateBalanceUI() {
             document.getElementById('userBalance').innerText = balance.toFixed(2);
@@ -165,8 +192,15 @@
             localStorage.setItem('leader_bot_balance', balance);
         }
 
+        function toggleAutoInput() {
+            let isChecked = document.getElementById('autoCashoutSwitch').checked;
+            document.getElementById('autoTargetContainer').style.display = isChecked ? 'block' : 'none';
+        }
+
         function openBetModal() {
-            if (gameState !== 'waiting') return;
+            let now = Date.now();
+            let cycleTime = now % 14000;
+            if (cycleTime > 4000) return;
             document.getElementById('betModal').style.display = 'flex';
         }
 
@@ -189,9 +223,8 @@
             balance -= currentBetAmount;
             updateBalanceUI();
             isBetPlaced = true;
+            hasCashedOut = false;
             closeBetModal();
-
-            document.getElementById('playerActiveBetText').innerText = currentBetAmount.toFixed(2);
 
             let btn = document.getElementById('mainBtn');
             btn.innerText = 'Cancel Bet';
@@ -200,12 +233,14 @@
         }
 
         function cancelBet() {
-            if (gameState !== 'waiting') return;
+            let now = Date.now();
+            let cycleTime = now % 14000;
+            if (cycleTime > 4000) return;
+
             balance += currentBetAmount;
             updateBalanceUI();
             isBetPlaced = false;
             currentBetAmount = 0;
-            document.getElementById('playerActiveBetText').innerText = '0.00';
 
             let btn = document.getElementById('mainBtn');
             btn.innerText = 'Place bet';
@@ -213,114 +248,67 @@
             btn.onclick = openBetModal;
         }
 
-        function startWaitingPhase() {
-            gameState = 'waiting';
-            currentMultiplier = 1.00;
-            document.getElementById('multiplierDisplay').innerText = '1.00x';
-            document.getElementById('rocketEmoji').innerText = '🚀';
-            document.getElementById('rocketEmoji').style.filter = 'none';
-
-            if (!isBetPlaced) {
-                let btn = document.getElementById('mainBtn');
-                btn.innerText = 'Place bet';
-                btn.className = 'action-btn';
-                btn.onclick = openBetModal;
-            }
-
-            let countdown = 3;
-            let statusPill = document.getElementById('channelTag');
-            
-            let waitInterval = setInterval(() => {
-                statusPill.innerText = `يبدأ الكيم خلال ${countdown} ثوانٍ...`;
-                countdown--;
-                if (countdown < 0) {
-                    clearInterval(waitInterval);
-                    startRunningPhase();
-                }
-            }, 1000);
-        }
-
-        function startRunningPhase() {
-            gameState = 'running';
-            document.getElementById('channelTag').innerText = 'قناة البوت: @iisCvC';
-
-            if (isBetPlaced) {
-                let btn = document.getElementById('mainBtn');
-                btn.innerText = 'Cash Out';
-                btn.className = 'action-btn cashout';
-                btn.onclick = cashOut;
-            }
-
-            let speedStep = 0.035; 
-            gameTimer = setInterval(() => {
-                currentMultiplier += speedStep;
-                document.getElementById('multiplierDisplay').innerText = currentMultiplier.toFixed(2) + 'x';
-                document.getElementById('leaderBetTag').innerText = 'x' + currentMultiplier.toFixed(2);
-                
-                if (isBetPlaced) {
-                    document.getElementById('leaderWinVal').innerText = (currentBetAmount * currentMultiplier).toFixed(2);
-                } else {
-                    document.getElementById('leaderWinVal').innerText = '0.00';
-                }
-
-                let autoCash = document.getElementById('autoCashoutSwitch').checked;
-                if (autoCash && currentMultiplier >= 2.0 && isBetPlaced && gameState === 'running') {
-                    cashOut();
-                }
-
-                // نقطة السقوط عشوائية وغير متوقعة
-                let randomRoll = Math.random();
-                if ((currentMultiplier > 10.0 && randomRoll < 0.04) || currentMultiplier >= 100.0) {
-                    endGame(currentMultiplier);
-                }
-            }, 100);
-        }
-
         function cashOut() {
-            if (!isBetPlaced || gameState !== 'running') return;
-            let winnings = currentBetAmount * currentMultiplier;
+            if (!isBetPlaced || hasCashedOut) return;
+            hasCashedOut = true;
+            let currentMult = parseFloat(document.getElementById('multiplierDisplay').innerText);
+            let winnings = currentBetAmount * currentMult;
             balance += winnings;
             updateBalanceUI();
-            isBetPlaced = false;
             
             let btn = document.getElementById('mainBtn');
-            btn.innerText = 'انتظر الجولة القادمة';
+            btn.innerText = 'تم السحب بنجاح ✅';
             btn.className = 'action-btn';
             btn.onclick = null;
         }
 
-        function endGame(finalMultiplier) {
-            clearInterval(gameTimer);
-            gameState = 'crashed';
-            document.getElementById('multiplierDisplay').innerText = finalMultiplier.toFixed(2) + 'x';
-            document.getElementById('rocketEmoji').innerText = '💥';
-            document.getElementById('rocketEmoji').style.filter = 'sepia(1) hue-rotate(300deg)';
+        setInterval(() => {
+            let now = Date.now();
+            let cycleTime = now % 14000;
 
-            if (isBetPlaced) {
-                isBetPlaced = false; 
+            if (cycleTime < 4000) {
+                let multiplier = 1.00;
+                document.getElementById('multiplierDisplay').innerText = multiplier.toFixed(2) + 'x';
+                document.getElementById('rocketEmoji').innerText = '🚀';
+                document.getElementById('rocketEmoji').style.filter = 'none';
+
+                if (!isBetPlaced) {
+                    let btn = document.getElementById('mainBtn');
+                    btn.innerText = 'Place bet';
+                    btn.className = 'action-btn';
+                    btn.onclick = openBetModal;
+                }
+            } else {
+                let elapsedSeconds = (cycleTime - 4000) / 1000;
+                let multiplier = 1.00 + (elapsedSeconds * elapsedSeconds * 0.4);
+
+                document.getElementById('multiplierDisplay').innerText = multiplier.toFixed(2) + 'x';
+
+                if (isBetPlaced && !hasCashedOut) {
+                    let btn = document.getElementById('mainBtn');
+                    btn.innerText = 'Cash Out';
+                    btn.className = 'action-btn cashout';
+                    btn.onclick = cashOut;
+
+                    let autoEnabled = document.getElementById('autoCashoutSwitch').checked;
+                    if (autoEnabled) {
+                        let targetMultiplier = parseFloat(document.getElementById('autoTargetInput').value);
+                        if (!isNaN(targetMultiplier) && multiplier >= targetMultiplier) {
+                            cashOut();
+                        }
+                    }
+                } else if (!isBetPlaced) {
+                    let btn = document.getElementById('mainBtn');
+                    btn.innerText = 'Started...';
+                    btn.className = 'action-btn';
+                    btn.onclick = null;
+                }
+
+                if (multiplier > 15.0 && (Math.floor(now / 14000) % 2 === 0)) {
+                    document.getElementById('rocketEmoji').innerText = '💥';
+                }
             }
-
-            let colorClass = 'h-red';
-            if (finalMultiplier >= 1.0 && finalMultiplier <= 1.20) colorClass = 'h-red';
-            else if (finalMultiplier > 1.20 && finalMultiplier <= 1.9) colorClass = 'h-green';
-            else if (finalMultiplier >= 2.0 && finalMultiplier <= 8.0) colorClass = 'h-purple';
-            else if (finalMultiplier >= 9.0) colorClass = 'h-gold';
-
-            let historyBar = document.getElementById('historyBar');
-            let newPill = document.createElement('div');
-            newPill.className = `hist-pill ${colorClass}`;
-            newPill.innerText = finalMultiplier.toFixed(2) + 'x';
-            historyBar.prepend(newPill);
-
-            let btn = document.getElementById('mainBtn');
-            btn.innerText = 'Place bet';
-            btn.className = 'action-btn';
-            btn.onclick = openBetModal;
-
-            setTimeout(startWaitingPhase, 4000);
-        }
-
-        startWaitingPhase();
+        }, 100);
     </script>
 </body>
 </html>
