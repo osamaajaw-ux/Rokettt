@@ -8,14 +8,12 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         body { background-color: #121212; color: #fff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 70px; }
         
-        /* الهيدر العلوي */
         .top-header { width: 100%; max-width: 480px; display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; }
         .gift-badge { background: #1e1e1e; border: 1px solid #333; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; color: #b388ff; display: flex; align-items: center; gap: 6px; }
         .balance-container { display: flex; align-items: center; gap: 8px; background: #1e1e1e; padding: 6px 12px; border-radius: 20px; border: 1px solid #333; }
         .balance-value { font-weight: bold; font-size: 14px; color: #fff; }
         .add-btn { background: #333; border: none; color: #fff; width: 22px; height: 22px; border-radius: 50%; font-weight: bold; cursor: pointer; }
 
-        /* شريط النتائج العلوي (History Bar) */
         .history-bar { width: 100%; max-width: 480px; display: flex; gap: 6px; overflow-x: auto; padding: 4px 16px; margin-bottom: 10px; scrollbar-width: none; }
         .history-bar::-webkit-scrollbar { display: none; }
         .hist-pill { padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: bold; white-space: nowrap; }
@@ -24,7 +22,6 @@
         .h-purple { background: #6a1b9a; color: #fff; }
         .h-gold { background: #fbc02d; color: #000; }
 
-        /* مسرح الصاروخ */
         .game-card { width: calc(100% - 32px); max-width: 448px; background: #18181b; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; align-items: center; position: relative; border: 1px solid #27272a; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
         .status-pill { background: #27272a; padding: 4px 12px; border-radius: 12px; font-size: 11px; color: #a1a1aa; margin-bottom: 10px; }
         .rocket-stage { height: 150px; display: flex; justify-content: center; align-items: center; position: relative; width: 100%; }
@@ -36,34 +33,30 @@
         }
         .multiplier-text { font-size: 32px; font-weight: 800; margin: 5px 0 15px 0; letter-spacing: 0.5px; }
 
-        /* زر الرهان الرئيسي */
         .action-btn { width: 100%; padding: 14px; border: none; border-radius: 14px; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center; transition: 0.2s; background: #2563eb; color: #fff; }
         .action-btn.cancel { background: #dc2626; }
         .action-btn.cashout { background: #16a34a; }
 
-        /* قائمة اللاعبين الحقيقيين السفليّة */
         .players-section { width: calc(100% - 32px); max-width: 448px; margin-top: 15px; display: flex; flex-direction: column; gap: 8px; }
         .player-card { background: #18181b; border: 1px solid #27272a; border-radius: 14px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
         .player-info { display: flex; align-items: center; gap: 12px; }
-        .avatar { width: 36px; height: 36px; border-radius: 10px; background: #3f3f46; display: flex; justify-content: center; align-items: center; font-size: 13px; font-weight: bold; overflow: hidden; }
-        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar { width: 36px; height: 36px; border-radius: 10px; background: #3f3f46; display: flex; justify-content: center; align-items: center; font-size: 13px; font-weight: bold; }
         .player-name { font-size: 13px; font-weight: 600; color: #f4f4f5; }
         .player-sub { font-size: 11px; color: #a1a1aa; margin-top: 2px; }
         .player-right { display: flex; align-items: center; gap: 10px; }
         .win-amount { font-size: 13px; font-weight: bold; color: #38bdf8; }
 
-        /* القائمة السفلية (Navigation Bar) مطابقة للصور تماماً */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #18181b; border-top: 1px solid #27272a; display: flex; justify-content: space-around; padding: 8px 0 16px 0; z-index: 100; }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #71717a; font-size: 10px; cursor: pointer; text-decoration: none; }
         .nav-item.active { color: #a855f7; }
         .nav-icon { font-size: 18px; }
 
-        /* نافذة الرهان المنبثقة (Modal) */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: flex-end; z-index: 200; display: none; }
         .modal-content { background: #18181b; width: 100%; max-width: 480px; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 20px; border-top: 1px solid #27272a; display: flex; flex-direction: column; gap: 16px; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 16px; }
         .close-modal { background: none; border: none; color: #a1a1aa; font-size: 18px; cursor: pointer; }
-        .input-box { background: #27272a; border-radius: 12px; padding: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #a1a1aa; }
+        
+        .custom-input { width: 100%; background: #27272a; border: 1px solid #3f3f46; border-radius: 12px; padding: 12px; font-size: 16px; color: #fff; outline: none; }
         .toggle-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #d4d4d8; }
         .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -75,30 +68,22 @@
 </head>
 <body>
 
-    <!-- الهيدر العلوي -->
     <div class="top-header">
         <div class="gift-badge">🎁 Ebic Gift</div>
         <div class="balance-container">
             <span style="font-size: 13px;">💎</span>
-            <span class="balance-value" id="userBalance">50.98</span>
+            <span class="balance-value" id="userBalance">150.00</span>
             <button class="add-btn">+</button>
         </div>
     </div>
 
-    <!-- شريط السجل العلوي (الألوان دقيقة حسب طلبك) -->
     <div class="history-bar" id="historyBar">
         <div class="hist-pill h-gold">66.32x</div>
-        <div class="hist-pill h-blue" style="background:#1d4ed8">2.32x</div>
-        <div class="hist-pill h-red">1.10x</div>
         <div class="hist-pill h-green">1.33x</div>
-        <div class="hist-pill h-gold">18.9x</div>
         <div class="hist-pill h-purple">3.57x</div>
-        <div class="hist-pill h-purple">7.62x</div>
-        <div class="hist-pill h-blue" style="background:#1d4ed8">3.96x</div>
-        <div class="hist-pill h-gold">90.2x</div>
+        <div class="hist-pill h-red">1.10x</div>
     </div>
 
-    <!-- منطقة اللعبة الرئيسية -->
     <div class="game-card">
         <div class="status-pill" id="channelTag">قناة البوت: @iisCvC</div>
         <div class="rocket-stage">
@@ -108,26 +93,24 @@
         <button class="action-btn" id="mainBtn" onclick="openBetModal()">Place bet</button>
     </div>
 
-    <!-- قائمة اللاعبين الحقيقيين (Leader وبدون أسماء وهمية) -->
-    <div class="players-section" id="playersListContainer">
-        <div style="font-size: 12px; color: #71717a; font-weight: bold; margin-top: 5px;">أكثر الأشخاص أصحاب الرصيد (Leaderboard)</div>
-        
+    <div class="players-section">
+        <div style="font-size: 12px; color: #71717a; font-weight: bold;">أكثر الأشخاص أصحاب الرصيد (Leaderboard)</div>
         <div class="player-card">
             <div class="player-info">
-                <div class="avatar" style="background: #27272a;">👑</div>
+                <div class="avatar">👑</div>
                 <div>
                     <div class="player-name">- Leader</div>
-                    <div class="player-sub">💎 100.00 <span id="leaderBetTag">x1.00</span></div>
+                    <div class="player-sub">💎 <span id="playerActiveBetText">0.00</span> <span id="leaderBetTag">x1.00</span></div>
                 </div>
             </div>
             <div class="player-right">
-                <div class="win-amount" id="leaderWinVal">20.00</div>
+                <div class="win-amount" id="leaderWinVal">0.00</div>
                 <div style="font-size: 16px;">🧸</div>
             </div>
         </div>
     </div>
 
-    <!-- نافذة الرهان المنبثقة (Place Bet Modal) -->
+    <!-- نافذة الرهان -->
     <div class="modal-overlay" id="betModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -135,18 +118,15 @@
                 <button class="close-modal" onclick="closeBetModal()">✕</button>
             </div>
             
-            <div style="display: flex; background: #27272a; padding: 4px; border-radius: 12px;">
-                <div style="flex:1; text-align:center; padding: 8px; font-size: 13px; border-radius: 10px; color:#a1a1aa;">Gifts</div>
-                <div style="flex:1; text-align:center; padding: 8px; font-size: 13px; border-radius: 10px; background:#a855f7; color:#fff; font-weight:bold;">TON</div>
-            </div>
-
             <div style="display: flex; justify-content: space-between; font-size: 12px; color: #a1a1aa;">
                 <span>Available balance</span>
-                <span>💎 <span id="modalBalance">50.98</span></span>
+                <span>💎 <span id="modalBalance">150.00</span></span>
             </div>
 
-            <div class="input-box">
-                <span>100 TON (قيمة الرهان الثابتة)</span>
+            <!-- حرية اختيار المبلغ -->
+            <div>
+                <label style="font-size: 12px; color: #a1a1aa; display: block; margin-bottom: 6px;">مبلغ الرهان (اختر الرقم بكيفك):</label>
+                <input type="number" id="customBetInput" class="custom-input" value="10" min="1">
             </div>
 
             <div class="toggle-row">
@@ -161,37 +141,21 @@
         </div>
     </div>
 
-    <!-- شريط التنقل السفلي (Bottom Navigation مطابق للصور) -->
     <div class="bottom-nav">
-        <div class="nav-item">
-            <span class="nav-icon">🎒</span>
-            <span>Backpack</span>
-        </div>
-        <div class="nav-item">
-            <span class="nav-icon">🎁</span>
-            <span>Invite</span>
-        </div>
-        <div class="nav-item active">
-            <span class="nav-icon">🏠</span>
-            <span>Home</span>
-        </div>
-        <div class="nav-item">
-            <span class="nav-icon">🏆</span>
-            <span>Leaderboard</span>
-        </div>
-        <div class="nav-item">
-            <span class="nav-icon">🪙</span>
-            <span>Earn</span>
-        </div>
+        <div class="nav-item"><span class="nav-icon">🎒</span>Backpack</div>
+        <div class="nav-item"><span class="nav-icon">🎁</span>Invite</div>
+        <div class="nav-item active"><span class="nav-icon">🏠</span>Home</div>
+        <div class="nav-item"><span class="nav-icon">🏆</span>Leaderboard</div>
+        <div class="nav-item"><span class="nav-icon">🪙</span>Earn</div>
     </div>
 
     <script>
-        // إدارة الحساب والرصيد (يحافظ على الرصيد حتى لو خسر وطلع ورجع)
-        let balance = localStorage.getItem('leader_bot_balance') ? parseFloat(localStorage.getItem('leader_bot_balance')) : 50.98;
+        let balance = localStorage.getItem('leader_bot_balance') ? parseFloat(localStorage.getItem('leader_bot_balance')) : 150.00;
+        let currentBetAmount = 0;
         updateBalanceUI();
 
         let isBetPlaced = false;
-        let gameState = 'waiting'; // waiting, running, crashed
+        let gameState = 'waiting'; 
         let currentMultiplier = 1.00;
         let gameTimer = null;
 
@@ -211,16 +175,23 @@
         }
 
         function confirmBet() {
-            if (balance < 100) {
-                alert('رصيدك غير كافٍ! تحتاج إلى 100 تون للرهان.');
-                closeBetModal();
+            let inputVal = parseFloat(document.getElementById('customBetInput').value);
+            if (isNaN(inputVal) || inputVal <= 0) {
+                alert('الرجاء إدخال مبلغ صحيح للرهان.');
+                return;
+            }
+            if (balance < inputVal) {
+                alert('رصيدك غير كافٍ لهذا الرهان!');
                 return;
             }
 
-            balance -= 100; // خصم 100 تون لكل لاعب يدخل
+            currentBetAmount = inputVal;
+            balance -= currentBetAmount;
             updateBalanceUI();
             isBetPlaced = true;
             closeBetModal();
+
+            document.getElementById('playerActiveBetText').innerText = currentBetAmount.toFixed(2);
 
             let btn = document.getElementById('mainBtn');
             btn.innerText = 'Cancel Bet';
@@ -230,9 +201,11 @@
 
         function cancelBet() {
             if (gameState !== 'waiting') return;
-            balance += 100; // استرجاع الرصيد إذا ألغى قبل الانطلاق
+            balance += currentBetAmount;
             updateBalanceUI();
             isBetPlaced = false;
+            currentBetAmount = 0;
+            document.getElementById('playerActiveBetText').innerText = '0.00';
 
             let btn = document.getElementById('mainBtn');
             btn.innerText = 'Place bet';
@@ -240,7 +213,6 @@
             btn.onclick = openBetModal;
         }
 
-        // محاكاة دورات الروكيت (أونلاين ومتوازنة)
         function startWaitingPhase() {
             gameState = 'waiting';
             currentMultiplier = 1.00;
@@ -279,23 +251,26 @@
                 btn.onclick = cashOut;
             }
 
-            // سرعة معتدلة ومريحة للصاروخ
             let speedStep = 0.035; 
             gameTimer = setInterval(() => {
                 currentMultiplier += speedStep;
                 document.getElementById('multiplierDisplay').innerText = currentMultiplier.toFixed(2) + 'x';
                 document.getElementById('leaderBetTag').innerText = 'x' + currentMultiplier.toFixed(2);
-                document.getElementById('leaderWinVal').innerText = (100 * currentMultiplier).toFixed(2);
+                
+                if (isBetPlaced) {
+                    document.getElementById('leaderWinVal').innerText = (currentBetAmount * currentMultiplier).toFixed(2);
+                } else {
+                    document.getElementById('leaderWinVal').innerText = '0.00';
+                }
 
-                // فحص السحب التلقائي
                 let autoCash = document.getElementById('autoCashoutSwitch').checked;
                 if (autoCash && currentMultiplier >= 2.0 && isBetPlaced && gameState === 'running') {
                     cashOut();
                 }
 
-                // تحديد نقطة الانفجار (Crash point) عشوائياً وبشكل متوازن
+                // نقطة السقوط عشوائية وغير متوقعة
                 let randomRoll = Math.random();
-                if ((currentMultiplier > 12.0 && randomRoll < 0.04) || currentMultiplier >= 100.0) {
+                if ((currentMultiplier > 10.0 && randomRoll < 0.04) || currentMultiplier >= 100.0) {
                     endGame(currentMultiplier);
                 }
             }, 100);
@@ -303,12 +278,10 @@
 
         function cashOut() {
             if (!isBetPlaced || gameState !== 'running') return;
-            let winnings = 100 * currentMultiplier;
+            let winnings = currentBetAmount * currentMultiplier;
             balance += winnings;
             updateBalanceUI();
             isBetPlaced = false;
-            
-            alert(`تم السحب بنجاح! ربحت ${winnings.toFixed(2)} تون`);
             
             let btn = document.getElementById('mainBtn');
             btn.innerText = 'انتظر الجولة القادمة';
@@ -324,28 +297,21 @@
             document.getElementById('rocketEmoji').style.filter = 'sepia(1) hue-rotate(300deg)';
 
             if (isBetPlaced) {
-                isBetPlaced = false; // خسر الرهان (يبقى رصيده ناقصاً ولا يعود تلقائياً)
+                isBetPlaced = false; 
             }
 
-            // تطبيق قواعد الألوان الدقيقة حسب طلبك تماماً:
-            // 1 إلى 1.20 -> حمراء (صفريه)
-            // 1.21 إلى 1.9 -> خضراء
-            // 2 إلى 8 -> بنفسجية
-            // 9 إلى 100 -> ذهبية
             let colorClass = 'h-red';
             if (finalMultiplier >= 1.0 && finalMultiplier <= 1.20) colorClass = 'h-red';
             else if (finalMultiplier > 1.20 && finalMultiplier <= 1.9) colorClass = 'h-green';
             else if (finalMultiplier >= 2.0 && finalMultiplier <= 8.0) colorClass = 'h-purple';
             else if (finalMultiplier >= 9.0) colorClass = 'h-gold';
 
-            // إضافة النتيجة للسجل العلوي
             let historyBar = document.getElementById('historyBar');
             let newPill = document.createElement('div');
             newPill.className = `hist-pill ${colorClass}`;
             newPill.innerText = finalMultiplier.toFixed(2) + 'x';
             historyBar.prepend(newPill);
 
-            // إعادة ضبط الزر للجولة الجديدة
             let btn = document.getElementById('mainBtn');
             btn.innerText = 'Place bet';
             btn.className = 'action-btn';
@@ -354,7 +320,6 @@
             setTimeout(startWaitingPhase, 4000);
         }
 
-        // بدء اللعبة تلقائياً
         startWaitingPhase();
     </script>
 </body>
