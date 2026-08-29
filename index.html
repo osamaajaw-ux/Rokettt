@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Epic Gift - Rocket</title>
+    <title>Leader - Rocket</title>
     <style>
         :root {
             --bg-primary: #0f0f13;
@@ -67,30 +67,48 @@
             font-size: 13px; 
             font-weight: bold; 
             color: var(--purple);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .user-avatar-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--border);
         }
         .balance-container { 
             display: flex; 
             align-items: center; 
-            gap: 8px; 
+            gap: 6px; 
             background: var(--bg-card); 
-            padding: 8px 14px; 
+            padding: 6px 12px; 
             border-radius: 20px; 
             border: 1px solid var(--border); 
         }
         .balance-value { 
             font-weight: bold; 
-            font-size: 15px; 
+            font-size: 14px; 
             color: var(--blue); 
         }
         .add-btn { 
             background: #3a3a4a; 
             border: none; 
             color: white; 
-            width: 24px; 
-            height: 24px; 
+            width: 22px; 
+            height: 22px; 
             border-radius: 50%; 
             font-weight: bold; 
             cursor: pointer; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .history-bar { 
@@ -459,13 +477,16 @@
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <div class="top-header">
-        <button class="back-btn" onclick="showToast('لا توجد صفحة سابقة', 'error')">‹ رجوع</button>
-        <div class="gift-badge">🎁 Epic Gift</div>
-        <div class="balance-container" aria-label="رصيد المستخدم">
-            <span style="font-size: 12px; font-weight: bold; color: var(--blue);">TON</span>
-            <span class="balance-value" id="userBalance">2.00</span>
-            <button class="add-btn" onclick="addBalance()" aria-label="إضافة رصيد">+</button>
+        <div class="header-left">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" class="user-avatar-small" alt="Profile" id="headerAvatar">
+            <div class="balance-container" aria-label="رصيد المستخدم">
+                <span style="font-size: 11px; font-weight: bold; color: var(--blue);">💎</span>
+                <span class="balance-value" id="userBalance">0.000</span>
+                <button class="add-btn" onclick="addBalance()" aria-label="إضافة رصيد">+</button>
+            </div>
         </div>
+        <div class="gift-badge">🎁 Leader</div>
+        <button class="back-btn" onclick="showToast('لا توجد صفحة سابقة', 'error')">إغلاق ✕</button>
     </div>
 
     <div class="history-bar" id="historyBar" aria-hidden="false"></div>
@@ -493,11 +514,11 @@
             
             <div style="display: flex; justify-content: space-between; font-size: 12px; color: #888;">
                 <span>الرصيد المتاح</span>
-                <span>TON <span id="modalBalance">2.00</span></span>
+                <span><span id="modalBalance">0.000</span> 💎</span>
             </div>
 
             <div>
-                <label style="font-size: 12px; color: #888; display: block; margin-bottom: 6px;">مبلغ الرهان (TON):</label>
+                <label style="font-size: 12px; color: #888; display: block; margin-bottom: 6px;">مبلغ الرهان:</label>
                 <input type="number" id="customBetInput" class="custom-input" value="1.00" step="0.1" min="0.1" max="100" aria-label="مبلغ الرهان">
                 <div style="display: flex; gap: 8px; margin-top: 8px;">
                     <button onclick="setQuickAmount(0.5)" style="flex:1; background:#2a2a3a; border:1px solid #3a3a4a; color:white; padding:8px; border-radius:8px; cursor:pointer; font-size:12px;" type="button">0.5</button>
@@ -534,8 +555,7 @@
     <script>
         // ===== حالة اللعبة =====
         let state = {
-            // balance in TON as number (use rounding for operations)
-            balance: 2.00,
+            balance: 0.000,
             currentBetAmount: 0,
             isBetPlaced: false,
             hasCashedOut: false,
@@ -546,15 +566,15 @@
             gameHistory: [],
             crashPoint: 1.00,
             currentMultiplier: 1.00,
-            gamePhase: 'waiting', // waiting, flying, crashed
-            playerAvatar: 'https://i.pravatar.cc/150?img=12', // أفاتار افتراضي
-            waitRemaining: 9.0, // ثواني للانتظار قبل بداية الجولة
-            lastTimestamp: null
+            gamePhase: 'waiting', 
+            playerAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150', 
+            waitRemaining: 9.0,
+            lastTimestamp: null,
+            flightTime: 0 // تتبع وقت الطيران لحساب السرعة التدريجية
         };
 
-        // ===== تحميل البيانات =====
         function loadState() {
-            const saved = localStorage.getItem('rocket_game_state');
+            const saved = localStorage.getItem('leader_rocket_state');
             if (saved) {
                 try {
                     const parsed = JSON.parse(saved);
@@ -564,25 +584,20 @@
                     if (Array.isArray(parsed.history)) {
                         state.gameHistory = parsed.history;
                     }
-                    if (parsed.avatar) {
-                        state.playerAvatar = parsed.avatar;
-                    }
                 } catch (e) {}
             }
         }
 
         function saveState() {
-            localStorage.setItem('rocket_game_state', JSON.stringify({
+            localStorage.setItem('leader_rocket_state', JSON.stringify({
                 balance: state.balance,
-                history: state.gameHistory,
-                avatar: state.playerAvatar
+                history: state.gameHistory
             }));
         }
 
-        // ===== إنشاء النجوم =====
         function createStars() {
             const container = document.getElementById('starsContainer');
-            container.innerHTML = ''; // منع التكرار عند إعادة الضبط
+            container.innerHTML = '';
             for (let i = 0; i < 25; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
@@ -593,36 +608,23 @@
             }
         }
 
-        // ===== توليد نقطة انفجار =====
         function generateCrashPoint() {
             const random = Math.random();
-            
-            // الحفاظ على التوزيع مع احتمالات مرتّبة (يمكن تعديل أو جعلها عادلة على الخادم)
-            if (random < 0.25) {
-                return 1.0 + Math.random() * 0.3;
-            } else if (random < 0.45) {
-                return 1.3 + Math.random() * 0.7;
-            } else if (random < 0.65) {
-                return 2.0 + Math.random() * 1.5;
-            } else if (random < 0.80) {
-                return 3.5 + Math.random() * 2.5;
-            } else if (random < 0.92) {
-                return 6.0 + Math.random() * 6.0;
-            } else if (random < 0.97) {
-                return 12.0 + Math.random() * 13.0;
-            } else {
-                return 25.0 + Math.random() * 25.0;
-            }
+            if (random < 0.25) return 1.0 + Math.random() * 0.3;
+            else if (random < 0.45) return 1.3 + Math.random() * 0.7;
+            else if (random < 0.65) return 2.0 + Math.random() * 1.5;
+            else if (random < 0.80) return 3.5 + Math.random() * 2.5;
+            else if (random < 0.92) return 6.0 + Math.random() * 6.0;
+            else if (random < 0.97) return 12.0 + Math.random() * 13.0;
+            else return 25.0 + Math.random() * 25.0;
         }
 
-        // ===== تحديث واجهة الرصيد =====
         function updateBalanceUI() {
-            document.getElementById('userBalance').innerText = state.balance.toFixed(2);
-            document.getElementById('modalBalance').innerText = state.balance.toFixed(2);
+            document.getElementById('userBalance').innerText = state.balance.toFixed(3);
+            document.getElementById('modalBalance').innerText = state.balance.toFixed(3);
             saveState();
         }
 
-        // ===== إظهار إشعار =====
         let toastTimer = null;
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
@@ -634,26 +636,21 @@
             }, 2000);
         }
 
-        // ===== إضافة رصيد =====
         function addBalance() {
-            // ملاحظة: هذه وظيفة تجريبية فقط؛ في نظام حقيقي يجب أن تُجرى على الخادم
-            state.balance = roundTon(state.balance + 0.5);
+            state.balance = roundTon(state.balance + 1.000);
             updateBalanceUI();
-            showToast('تمت إضافة 0.5 TON ✨', 'success');
+            showToast('تمت إضافة 1.000 💎', 'success');
         }
 
-        // ===== ضبط مبلغ سريع =====
         function setQuickAmount(amount) {
             document.getElementById('customBetInput').value = amount;
         }
 
-        // ===== تبديل السحب التلقائي =====
         function toggleAutoInput() {
             const isChecked = document.getElementById('autoCashoutSwitch').checked;
             document.getElementById('autoTargetContainer').style.display = isChecked ? 'block' : 'none';
         }
 
-        // ===== فتح نافذة الرهان =====
         function openBetModal() {
             if (state.gamePhase !== 'waiting') {
                 showToast('انتظر الجولة القادمة', 'error');
@@ -662,23 +659,19 @@
             const overlay = document.getElementById('betModal');
             overlay.classList.add('active');
             overlay.setAttribute('aria-hidden', 'false');
-            // ضبط التركيز على حقل المبلغ
             setTimeout(() => {
                 const input = document.getElementById('customBetInput');
                 if (input) input.focus();
             }, 100);
         }
 
-        // ===== إغلاق نافذة الرهان =====
         function closeBetModal() {
             const overlay = document.getElementById('betModal');
             overlay.classList.remove('active');
             overlay.setAttribute('aria-hidden', 'true');
-            // إعادة التركيز للزر الرئيسي
             document.getElementById('mainBtn').focus();
         }
 
-        // ===== تأكيد الرهان =====
         function confirmBet() {
             const inputVal = parseFloat(document.getElementById('customBetInput').value);
             
@@ -707,7 +700,6 @@
             updateButton('cancel');
         }
 
-        // ===== إلغاء الرهان =====
         function cancelBet() {
             if (state.gamePhase !== 'waiting') {
                 showToast('لا يمكن الإلغاء الآن', 'error');
@@ -723,12 +715,10 @@
             updateButton('place');
         }
 
-        // ===== تقريب آمن لوحدات TON =====
         function roundTon(val) {
-            return Math.round(val * 100) / 100;
+            return Math.round(val * 1000) / 1000;
         }
 
-        // ===== السحب =====
         function cashOut() {
             if (!state.isBetPlaced || state.hasCashedOut) return;
             if (state.gamePhase !== 'flying') return;
@@ -738,22 +728,19 @@
             state.currentWinnings = roundTon(state.currentBetAmount * state.cashoutMultiplier);
             state.balance = roundTon(state.balance + state.currentWinnings);
             
-            // مسح الرهان لأن اللاعب استلم أرباحه (منع الاحتفاظ برهان من الجولة السابقة)
             state.isBetPlaced = false;
             state.currentBetAmount = 0;
 
             updateBalanceUI();
-            
             updatePlayersUI('cashed');
             updateButton('disabled');
             
-            showToast(`ربحت ${state.currentWinnings.toFixed(2)} TON 🎉`, 'success');
+            showToast(`ربحت ${state.currentWinnings.toFixed(3)} 💎`, 'success');
         }
 
-        // ===== تحديث زر اللعب =====
         function updateButton(type) {
             const btn = document.getElementById('mainBtn');
-            btn.className = 'action-btn'; // reset base class
+            btn.className = 'action-btn';
             btn.disabled = false;
             switch(type) {
                 case 'place':
@@ -786,10 +773,9 @@
             }
         }
 
-        // ===== تحديث قائمة اللاعبين (آمن من XSS) =====
         function updatePlayersUI(status) {
             const container = document.getElementById('playersSection');
-            container.innerHTML = ''; // سنبني DOM من عناصر آمنة
+            container.innerHTML = '';
 
             if (!state.isBetPlaced && status !== 'cashed' && status !== 'crashed') {
                 const noEl = document.createElement('div');
@@ -799,7 +785,6 @@
                 return;
             }
 
-            // Helper لإنشاء بطاقة لاعب
             function makePlayerCard(opts) {
                 const card = document.createElement('div');
                 card.className = 'player-card';
@@ -814,12 +799,8 @@
                 const img = document.createElement('img');
                 img.className = 'avatar';
                 img.alt = 'Player';
-                // تأكد من تعقيم قيمة src عن طريق إنشاء عنصر وتعيين src مباشرة (لا نستخدم innerHTML)
-                img.src = opts.avatar || 'https://i.pravatar.cc/150?img=1';
-                img.onerror = () => { img.src = 'https://i.pravatar.cc/150?img=1'; };
-                if (opts.type === 'crashed') {
-                    img.style.borderColor = '#ef4444';
-                }
+                img.src = opts.avatar || state.playerAvatar;
+                img.onerror = () => { img.src = state.playerAvatar; };
 
                 const meta = document.createElement('div');
                 const name = document.createElement('div');
@@ -832,7 +813,6 @@
 
                 meta.appendChild(name);
                 meta.appendChild(sub);
-
                 info.appendChild(img);
                 info.appendChild(meta);
 
@@ -851,48 +831,40 @@
             }
 
             if (status === 'waiting') {
-                const card = makePlayerCard({
+                container.appendChild(makePlayerCard({
                     avatar: state.playerAvatar,
                     name: 'Leader',
-                    subText: `TON ${state.currentBetAmount.toFixed(2)}`,
+                    subText: `${state.currentBetAmount.toFixed(3)} 💎`,
                     rightText: 'قيد الانتظار...'
-                });
-                container.appendChild(card);
+                }));
             } else if (status === 'cashed') {
-                const card = makePlayerCard({
+                container.appendChild(makePlayerCard({
                     avatar: state.playerAvatar,
                     name: 'Leader',
-                    subText: `TON ${state.currentWinnings.toFixed(2)} (سحبت عند ${state.cashoutMultiplier.toFixed(2)}x)`,
-                    rightText: `+${state.currentWinnings.toFixed(2)} TON 💰`
-                });
-                container.appendChild(card);
+                    subText: `${state.currentWinnings.toFixed(3)} 💎 (سحبت عند ${state.cashoutMultiplier.toFixed(2)}x)`,
+                    rightText: `+${state.currentWinnings.toFixed(3)} 💰`
+                }));
             } else if (status === 'crashed') {
-                const card = makePlayerCard({
+                container.appendChild(makePlayerCard({
                     type: 'crashed',
                     avatar: state.playerAvatar,
                     name: 'Leader',
-                    subText: `خسرت TON ${state.currentBetAmount.toFixed(2)}`,
-                    rightText: `-${state.currentBetAmount.toFixed(2)} TON`
-                });
-                container.appendChild(card);
+                    subText: `خسرت ${state.currentBetAmount.toFixed(3)} 💎`,
+                    rightText: `-${state.currentBetAmount.toFixed(3)} 💎`
+                }));
             }
         }
 
-        // ===== إضافة سجل =====
         function addHistory(multiplier) {
             state.gameHistory.unshift(multiplier);
-            if (state.gameHistory.length > 10) {
-                state.gameHistory.pop();
-            }
+            if (state.gameHistory.length > 10) state.gameHistory.pop();
             renderHistory();
             saveState();
         }
 
-        // ===== عرض السجل =====
         function renderHistory() {
             const historyBar = document.getElementById('historyBar');
             historyBar.innerHTML = '';
-            
             state.gameHistory.forEach(mult => {
                 const pill = document.createElement('div');
                 let colorClass = 'h-green';
@@ -905,11 +877,11 @@
             });
         }
 
-        // ===== بدء جولة جديدة =====
         function startNewRound() {
             state.gamePhase = 'flying';
             state.crashPoint = generateCrashPoint();
             state.currentMultiplier = 1.00;
+            state.flightTime = 0; // إعادة تعيين وقت الطيران للبدء ببطء
             state.canPlaceBet = false;
             
             const rocket = document.getElementById('rocketEmoji');
@@ -928,7 +900,6 @@
             }
         }
 
-        // ===== إنهاء الجولة (انفجار) =====
         function endRound() {
             state.gamePhase = 'crashed';
             state.canPlaceBet = false;
@@ -947,8 +918,6 @@
             if (state.isBetPlaced && !state.hasCashedOut) {
                 updatePlayersUI('crashed');
                 updateButton('crashed');
-                
-                // إفراغ معلومات الرهان بعد عرض النتيجة
                 setTimeout(() => {
                     state.isBetPlaced = false;
                     state.currentBetAmount = 0;
@@ -956,11 +925,10 @@
                 }, 2000);
             }
             
-            // العودة لمرحلة الانتظار بعد تأخير
             setTimeout(() => {
                 state.gamePhase = 'waiting';
                 state.canPlaceBet = true;
-                state.waitRemaining = 9.0; // إعادة ضبط الانتظار
+                state.waitRemaining = 9.0;
                 const rocket = document.getElementById('rocketEmoji');
                 rocket.classList.remove('exploded');
                 rocket.classList.add('waiting');
@@ -978,14 +946,12 @@
             }, 3000);
         }
 
-        // ===== الحلقة الرئيسية (requestAnimationFrame + delta-time) =====
         function gameLoopTick(now) {
             if (!state.lastTimestamp) state.lastTimestamp = now;
-            const dt = (now - state.lastTimestamp) / 1000; // بالثواني
+            const dt = (now - state.lastTimestamp) / 1000;
             state.lastTimestamp = now;
 
             if (state.gamePhase === 'waiting') {
-                // تحديث العد التنازلي محلياً
                 state.waitRemaining = Math.max(0, state.waitRemaining - dt);
                 const secondsLeft = Math.ceil(state.waitRemaining);
                 document.getElementById('multiplierDisplay').innerText = `يبدأ خلال ${secondsLeft}s`;
@@ -993,11 +959,12 @@
                     startNewRound();
                 }
             } else if (state.gamePhase === 'flying') {
-                // زيادة المضاعف بناءً على dt لضمان ثبات السرعة
-                // نستخدم معدل نمو تقريبي (units per second)
-                const growthPerSecond = 0.9; // عدّل هذا العامل لسرعة مضاعف مختلفة
-                // نزيد المضاعف بطريقة مبسطة (يمكن تغييرها إلى نموذج لوجاريتمي)
-                state.currentMultiplier = state.currentMultiplier + (growthPerSecond * dt);
+                // زيادة وقت الطيران
+                state.flightTime += dt;
+                
+                // معادلة أُسية (Exponential) تجعل البداية بطيئة جداً وتتسارع تدريجياً بمرور الوقت
+                // Math.pow(1.15, state.flightTime) تضمن صعوداً تدريجياً سلساً وآمناً
+                state.currentMultiplier = 1.00 + (Math.pow(1.35, state.flightTime) - 1) * 0.35;
                 
                 if (state.currentMultiplier >= state.crashPoint) {
                     state.currentMultiplier = state.crashPoint;
@@ -1008,7 +975,6 @@
                 
                 document.getElementById('multiplierDisplay').innerText = state.currentMultiplier.toFixed(2) + 'x';
                 
-                // السحب التلقائي
                 if (state.isBetPlaced && !state.hasCashedOut) {
                     const autoEnabled = document.getElementById('autoCashoutSwitch').checked;
                     if (autoEnabled) {
@@ -1023,7 +989,6 @@
             requestAnimationFrame(gameLoopTick);
         }
 
-        // ===== التهيئة =====
         function init() {
             loadState();
             createStars();
@@ -1031,7 +996,6 @@
             renderHistory();
             
             if (state.gameHistory.length === 0) {
-                // سجل افتراضي واقعي
                 [1.45, 2.30, 1.15, 3.20, 1.80, 2.50, 1.10, 4.50, 1.65, 2.80].forEach(mult => {
                     state.gameHistory.push(mult);
                 });
@@ -1041,7 +1005,6 @@
             state.gamePhase = 'waiting';
             state.waitRemaining = 9.0;
 
-            // إعداد إغلاق المودال بالنقر خارج المحتوى و Escape
             const overlay = document.getElementById('betModal');
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) closeBetModal();
@@ -1054,7 +1017,6 @@
                 }
             });
 
-            // ابدأ حلقة الرسوم
             state.lastTimestamp = performance.now();
             requestAnimationFrame(gameLoopTick);
         }
