@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leader Crash - لعبة تسلية برصيد وهمي</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    background: #0b0b0c;
+    color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    padding: 20px 12px;
+    min-height: 100vh;
+  }
+  .wrap { width: 100%; max-width: 420px; }
+  .card {
+    background: #141416;
+    border: 1px solid #2a2a2d;
+    border-radius: 16px;
+    padding: 18px;
+  }
+  .top-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .title { font-weight: 700; font-size: 16px; color: #e50914; }
+  .balance-pill {
+    background: #1c1d20; border: 1px solid #2c2d30; border-radius: 20px;
+    padding: 6px 14px; font-size: 13px; font-weight: 600;
+  }
+  .note { font-size: 11px; color: #777; text-align: center; margin: 8px 0 16px; line-height: 1.6; }
+
+  .banner {
+    border-radius: 14px; padding: 16px; margin-bottom: 12px; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(135deg, #1f6fd6, #123a70);
+    border: none;
+  }
+  .banner.locked { opacity: .45; cursor: not-allowed; }
+  .banner-tag {
+    display: inline-block; background: rgba(255,255,255,.18); font-size: 11px;
+    padding: 3px 8px; border-radius: 20px; margin-bottom: 6px; font-weight: 700;
+  }
+  .banner-title { font-size: 20px; font-weight: 800; color: #fff; }
+  .banner-sub { font-size: 12px; color: #cfe0ff; margin-top: 2px; }
+
+  #gameScreen { display: none; }
+  .stage { text-align: center; padding: 26px 0 14px; position: relative; height: 150px; }
+  #rocket { font-size: 46px; display: inline-block; position: relative; transition: transform .05s linear; }
+  #multiplierDisplay { font-size: 36px; font-weight: 800; margin-top: 6px; color: #fff; }
+  #statusText { font-size: 13px; color: #9a9a9a; margin-top: 2px; }
+
+  .history { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 14px; padding-bottom: 2px; }
+  .pill { flex: 0 0 auto; font-size: 12px; font-weight: 700; padding: 5px 10px; border-radius: 20px; color: #fff; }
+  .pill.red    { background: #a32d2d; }
+  .pill.green  { background: #0f6e56; }
+  .pill.purple { background: #534ab7; }
+  .pill.gold   { background: #854f0b; }
+
+  .bet-row { display: flex; gap: 8px; margin-bottom: 10px; }
+  input[type=number], input[type=text] {
+    background: #1c1d20; border: 1px solid #2c2d30; color: #fff;
+    border-radius: 8px; padding: 9px 10px; font-size: 14px;
+  }
+  #betInput { flex: 1; }
+  button {
+    background: #e50914; border: none; color: #fff; border-radius: 8px;
+    font-weight: 700; font-size: 14px; padding: 9px 14px; cursor: pointer;
+  }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  #actionBtn { flex: 1; }
+
+  .auto-row {
+    display: flex; align-items: center; justify-content: space-between;
+    background: #1c1d20; border: 1px solid #2c2d30; border-radius: 8px;
+    padding: 8px 10px; margin-bottom: 14px; font-size: 13px; gap: 8px;
+  }
+  .auto-row input[type=number] { width: 70px; }
+  .switch { position: relative; width: 40px; height: 22px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; inset: 0; background: #3a3a3d; border-radius: 20px; cursor: pointer; transition: .2s; }
+  .slider:before { content: ""; position: absolute; width: 16px; height: 16px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s; }
+  .switch input:checked + .slider { background: #0f6e56; }
+  .switch input:checked + .slider:before { transform: translateX(18px); }
+
+  h3.section { font-size: 13px; color: #999; margin: 16px 0 8px; font-weight: 600; }
+  .player-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #1c1d20; border-radius: 8px; padding: 8px 10px; font-size: 13px; margin-bottom: 6px;
+  }
+  .player-row input[type=text] {
+    background: transparent; border: none; color: #ddd; font-size: 13px; padding: 2px 4px; width: 90px;
+  }
+  .win { color: #5dcaa5; font-weight: 700; }
+  .lose { color: #f09595; font-weight: 700; }
+  .neutral { color: #9a9a9a; font-weight: 700; }
+
+  .leader-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 4px; font-size: 13px; border-bottom: 1px solid #232326; }
+  .leader-row:last-child { border-bottom: none; }
+  .rank { color: #777; width: 20px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+
+    <div class="top-row">
+      <div class="title">🚀 Leader Crash</div>
+      <div class="balance-pill"><span id="balanceStart">100.00</span> TON</div>
+    </div>
+
+    <div id="startScreen">
+      <div class="banner" id="playBanner">
+        <div>
+          <span class="banner-tag">HOT</span>
+          <div class="banner-title">ROCKET</div>
+          <div class="banner-sub">اضغط للعب مع أصدقائك</div>
+        </div>
+        <div style="font-size:34px;">🚀</div>
+      </div>
+      <div class="banner locked">
+        <div>
+          <span class="banner-tag">NEW</span>
+          <div class="banner-title">PVP</div>
+          <div class="banner-sub">قريباً</div>
+        </div>
+        <div style="font-size:34px;">⚔️</div>
+      </div>
+      <div class="note">
+        رصيد وهمي بالكامل للتسلية فقط، بدون أي إيداع أو سحب حقيقي.
+        عدّل أسماء أصدقائك بالأسفل بعد الدخول للعبة.
+      </div>
+    </div>
+
+    <div id="gameScreen">
+      <div class="stage">
+        <div id="rocket">🚀</div>
+        <div id="multiplierDisplay">1.00x</div>
+        <div id="statusText">تجهيز الجولة...</div>
+      </div>
+
+      <div class="history" id="historyRow"></div>
+
+      <div class="bet-row">
+        <input type="number" id="betInput" value="10" min="1" step="1">
+        <button id="actionBtn">راهن</button>
+      </div>
+
+      <div class="auto-row">
+        <span>سحب تلقائي عند</span>
+        <input type="number" id="autoTarget" value="2.00" min="1.01" step="0.1">
+        <label class="switch">
+          <input type="checkbox" id="autoToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <h3 class="section">لاعبين هالجولة (عدّل الأسماء لأصدقائك)</h3>
+      <div id="playersList"></div>
+
+      <h3 class="section">🏆 المتصدرين</h3>
+      <div id="leaderboard"></div>
+
+      <div class="note">لعبة تسلية محلية، الأسماء والأرصدة تحفظ بالمتصفح بس، مالها علاقة بأي حساب أو منصة حقيقية.</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  var balance = 100;
+  var betAmount = 0, betPlaced = false, cashedOut = false;
+  var phase = 'waiting', countdown = 5, multiplier = 1.00, crashPoint = 1.00;
+  var history = [];
+  var flyTimer = null, startTime = 0, timer = null;
+
+  var players = [
+    { name: 'أنت', isUser: true, balance: 100, bet: 0, target: 0, result: null },
+    { name: 'صديق 1', isUser: false, balance: 100, bet: 0, target: 0, result: null },
+    { name: 'صديق 2', isUser: false, balance: 100, bet: 0, target: 0, result: null },
+    { name: 'صديق 3', isUser: false, balance: 100, bet: 0, target: 0, result: null }
+  ];
+
+  var startScreen = document.getElementById('startScreen');
+  var gameScreen = document.getElementById('gameScreen');
+  var playBanner = document.getElementById('playBanner');
+  var balanceStartEl = document.getElementById('balanceStart');
+  var multEl = document.getElementById('multiplierDisplay');
+  var statusEl = document.getElementById('statusText');
+  var rocketEl = document.getElementById('rocket');
+  var historyEl = document.getElementById('historyRow');
+  var betInput = document.getElementById('betInput');
+  var actionBtn = document.getElementById('actionBtn');
+  var playersEl = document.getElementById('playersList');
+  var leaderboardEl = document.getElementById('leaderboard');
+  var autoToggle = document.getElementById('autoToggle');
+  var autoTarget = document.getElementById('autoTarget');
+
+  function fmt(n){ return Number(n).toFixed(2); }
+
+  playBanner.addEventListener('click', function(){
+    startScreen.style.display = 'none';
+    gameScreen.style.display = 'block';
+    resetRound();
+  });
+
+  function pillClass(v){
+    if (v < 1.20) return 'red';
+    if (v < 2.00) return 'green';
+    if (v < 9.00) return 'purple';
+    return 'gold';
+  }
+
+  function genCrash(){
+    var r = Math.random();
+    var raw = 0.98 / (1 - r);
+    var val = Math.min(raw, 60);
+    return Math.max(1.00, Math.round(val * 100) / 100);
+  }
+
+  function renderHistory(){
+    historyEl.innerHTML = '';
+    history.slice(-12).forEach(function(h){
+      var p = document.createElement('div');
+      p.className = 'pill ' + pillClass(h);
+      p.textContent = h.toFixed(2) + 'x';
+      historyEl.appendChild(p);
+    });
+  }
+
+  function renderPlayers(){
+    playersEl.innerHTML = '';
+    players.forEach(function(p, i){
+      var row = document.createElement('div');
+      row.className = 'player-row';
+
+      var nameEl;
+      if (p.isUser){
+        nameEl = document.createElement('span');
+        nameEl.textContent = p.name;
+        nameEl.style.color = '#fff';
+        nameEl.style.fontWeight = '700';
+      } else {
+        nameEl = document.createElement('input');
+        nameEl.type = 'text';
+        nameEl.value = p.name;
+        nameEl.addEventListener('input', function(){ p.name = nameEl.value || p.name; renderLeaderboard(); });
+      }
+
+      var right = document.createElement('span');
+      if (p.result === 'win'){
+        right.className = 'win';
+        right.textContent = '+' + fmt(p.bet * p.target - p.bet) + ' TON';
+      } else if (p.result === 'lose'){
+        right.className = 'lose';
+        right.textContent = '-' + fmt(p.bet) + ' TON';
+      } else {
+        right.className = 'neutral';
+        right.textContent = p.bet ? fmt(p.bet) + ' TON' : '-';
+      }
+
+      row.appendChild(nameEl);
+      row.appendChild(right);
+      playersEl.appendChild(row);
+    });
+  }
+
+  function renderLeaderboard(){
+    leaderboardEl.innerHTML = '';
+    var sorted = players.slice().sort(function(a,b){ return b.balance - a.balance; });
+    sorted.forEach(function(p, i){
+      var row = document.createElement('div');
+      row.className = 'leader-row';
+      row.innerHTML = '<span><span class="rank">#' + (i+1) + '</span>' + p.name + (p.isUser ? ' (أنت)' : '') + '</span><span>' + fmt(p.balance) + ' TON</span>';
+      leaderboardEl.appendChild(row);
+    });
+  }
+
+  function resetRound(){
+    phase = 'waiting'; countdown = 5; multiplier = 1.00;
+    crashPoint = genCrash();
+    betPlaced = false; betAmount = 0; cashedOut = false;
+
+    multEl.textContent = '1.00x';
+    multEl.style.color = '#fff';
+    rocketEl.style.transform = 'translateY(0) rotate(0deg)';
+    rocketEl.textContent = '🚀';
+    actionBtn.textContent = 'راهن';
+    actionBtn.disabled = false;
+    betInput.disabled = false;
+
+    players.forEach(function(p){
+      p.bet = 0; p.target = 0; p.result = null;
+      if (!p.isUser){
+        p.bet = Math.round(Math.random()*30+5);
+        p.target = Math.round((1.1 + Math.random()*4)*100)/100;
+      }
+    });
+
+    renderPlayers();
+    renderLeaderboard();
+    tickCountdown();
+  }
+
+  function tickCountdown(){
+    statusEl.textContent = 'الجولة تبدأ خلال ' + countdown;
+    timer = setTimeout(function(){
+      countdown--;
+      if (countdown > 0) tickCountdown();
+      else startFlight();
+    }, 1000);
+  }
+
+  function startFlight(){
+    phase = 'flying';
+    statusEl.textContent = 'الصاروخ يطير...';
+    betInput.disabled = true;
+
+    if (betPlaced){
+      actionBtn.textContent = 'اسحب الآن';
+      actionBtn.disabled = false;
+    } else {
+      actionBtn.textContent = 'ما دخلت هالجولة';
+      actionBtn.disabled = true;
+    }
+
+    startTime = Date.now();
+    flyTimer = setInterval(function(){
+      var t = (Date.now() - startTime) / 1000;
+      multiplier = Math.round((1.00 * Math.pow(1.035, t*10)) * 100) / 100;
+
+      if (multiplier >= crashPoint){
+        multiplier = crashPoint;
+        crash();
+        return;
+      }
+
+      multEl.textContent = multiplier.toFixed(2) + 'x';
+      var lift = Math.min(multiplier * 2.4, 55);
+      var wobble = Math.sin(t*6) * 4;
+      rocketEl.style.transform = 'translateY(-' + lift + 'px) rotate(' + wobble + 'deg)';
+
+      if (autoToggle.checked && betPlaced && !cashedOut){
+        var target = parseFloat(autoTarget.value);
+        if (target && multiplier >= target){
+          doCashout();
+        }
+      }
+
+      players.forEach(function(p){
+        if (!p.isUser && p.result === null && multiplier >= p.target){
+          p.result = 'win';
+          p.balance += (p.bet * p.target - p.bet);
+          renderLeaderboard();
+        }
+      });
+      renderPlayers();
+    }, 70);
+  }
+
+  function crash(){
+    clearInterval(flyTimer);
+    phase = 'crashed';
+    multEl.textContent = crashPoint.toFixed(2) + 'x';
+    multEl.style.color = pillClass(crashPoint) === 'red' ? '#e24b4a' : multEl.style.color;
+    statusEl.textContent = 'انفجر عند ' + crashPoint.toFixed(2) + 'x';
+    rocketEl.textContent = '💥';
+
+    players.forEach(function(p){
+      if (!p.isUser && p.result === null){
+        p.result = 'lose';
+        p.balance -= p.bet;
+      }
+    });
+
+    if (betPlaced && !cashedOut){
+      statusEl.textContent += ' — خسرت الرهان';
+    }
+
+    renderPlayers();
+    renderLeaderboard();
+
+    history.push(crashPoint);
+    renderHistory();
+
+    actionBtn.disabled = true;
+    setTimeout(resetRound, 2200);
+  }
+
+  function doCashout(){
+    cashedOut = true;
+    var win = betAmount * multiplier;
+    balance += win;
+    var me = players[0];
+    me.result = 'win';
+    me.balance = balance;
+    balanceStartEl.textContent = fmt(balance);
+    actionBtn.textContent = 'سحبت x' + multiplier.toFixed(2);
+    actionBtn.disabled = true;
+    statusEl.textContent = 'سحبت ' + fmt(win) + ' TON عند ' + multiplier.toFixed(2) + 'x';
+    renderPlayers();
+    renderLeaderboard();
+  }
+
+  actionBtn.addEventListener('click', function(){
+    if (phase === 'waiting' && !betPlaced){
+      var amt = parseFloat(betInput.value);
+      if (!amt || amt <= 0){ statusEl.textContent = 'دخل مبلغ صحيح أول'; return; }
+      if (amt > balance){ statusEl.textContent = 'رصيدك ما يكفي'; return; }
+
+      betAmount = amt;
+      balance -= amt;
+      betPlaced = true;
+      players[0].bet = amt;
+      players[0].balance = balance;
+
+      balanceStartEl.textContent = fmt(balance);
+      actionBtn.textContent = 'راهنت ' + fmt(amt) + ' TON';
+      actionBtn.disabled = true;
+      statusEl.textContent = 'الجولة تبدأ خلال ' + countdown;
+      renderPlayers();
+      renderLeaderboard();
+    } else if (phase === 'flying' && betPlaced && !cashedOut){
+      doCashout();
+    }
+  });
+
+})();
+</script>
+</body>
+</html>
